@@ -1,0 +1,71 @@
+[project]
+name = "biblib"
+
+authors = [{ name = "Austin Clements", email = "aclements@csail.mit.edu" }]
+
+description = "Simple, correct BibTeX parser and algorithms"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["bibtex", "tex", "parser", "algorithms"]
+
+license = "MIT"
+classifiers=[
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Topic :: Database',
+    'Topic :: Text Processing',
+]
+dynamic = ["version"]
+
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+
+[tool.hatch]
+version.source = "vcs"
+version.raw_options.version_scheme = "guess-next-dev"
+version.raw_options.local_scheme = "node-and-date"
+build.hooks.vcs.version-file = "biblib/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["biblib"]
+
+[tool.pixi.workspace]
+preview = ["pixi-build"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+test = { features = ["test"], solve-group = "default" }
+
+[tool.pixi.dependencies]
+biblib = { path = "." }
+
+[tool.pixi.feature.test.dependencies]
+# "pixi run tests" will run all files named test_*.py within tests/ directory
+[tool.pixi.feature.test.tasks]
+tests = "cd tests; python test.py"
+
+
+# PIXI PACKAGE CONFIGURATION
+[tool.pixi.package]
+name = "biblib"
+version = "0.1.0" # Inheritance of version is not yet supported
+
+[tool.pixi.package.host-dependencies]
+hatchling = "*"
+hatch-vcs = "*"
+
+[tool.pixi.package.build]
+backend = { name = "pixi-build-python", version = "*"}
+
+[tool.pixi.package.build.config]
+noarch = true

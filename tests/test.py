@@ -1,10 +1,10 @@
 import unittest
 import collections
 import io
-from .bib import *
-from .algo import *
-from .messages import *
-from . import algo
+from biblib.bib import *
+from biblib.algo import *
+from biblib.messages import *
+from biblib import algo
 
 def od(*args):
     return collections.OrderedDict(zip(args[::2], args[1::2]))
@@ -325,3 +325,6 @@ class TeXToUnicodeTest(unittest.TestCase):
 
     def test_ligatures(self):
         self.assertEqual(tex_to_unicode(r'a--b---c-{-}d'), 'a\u2013b\u2014c--d')
+
+if __name__ == '__main__':
+    unittest.main()
